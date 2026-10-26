@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Винсент Фокс — инструменты для агентов и свой хостинг</title>
+<meta name="description" content="Инструменты для агентов, свой хостинг и фулстек — Винсент Фокс.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="assets/avatar-small.png">
+<style>
+  :root {
+    --bg: #0b0d10;
+    --panel: #11151a;
+    --line: #1e242c;
+    --fg: #d7dde3;
+    --dim: #7d8794;
+    --accent: #7ee787;
+    --warn: #ffa657;
+    --link: #79c0ff;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.6 ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    padding: 0 20px 96px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  header { display: flex; gap: 24px; align-items: center; padding: 56px 0 36px; flex-wrap: wrap; }
+  header img {
+    width: 112px; height: 112px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--panel);
+  }
+  h1 { font-size: 30px; margin: 0 0 6px; letter-spacing: -.02em; }
+  .tag { color: var(--dim); margin: 0; }
+  .tag b { color: var(--fg); font-weight: 600; }
+  .lang { margin-left: auto; font-size: 13px; color: var(--dim); white-space: nowrap; }
+  .lang b { color: var(--fg); }
+  .lang a { color: var(--dim); }
+  .lang a:hover { color: var(--fg); }
+  h2 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: .14em;
+    color: var(--dim); font-weight: 600; margin: 44px 0 14px;
+  }
+  .term {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 18px 20px; overflow-x: auto; font-size: 14px; line-height: 1.65;
+  }
+  .term .p { color: var(--accent); user-select: none; }
+  .term .c { color: var(--dim); }
+  .term .k { color: var(--warn); }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  td { padding: 13px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:first-child td { padding-top: 0; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { width: 34%; color: var(--fg); white-space: nowrap; }
+  td:last-child { color: var(--dim); }
+  .badge {
+    font-size: 11px; color: var(--dim); border: 1px solid var(--line);
+    border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 1px;
+  }
+  .stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack span {
+    font-size: 13px; color: var(--fg); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px;
+  }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer { margin-top: 52px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); padding-top: 18px; }
+  @media (max-width: 620px) {
+    header { padding-top: 36px; gap: 18px; }
+    h1 { font-size: 24px; }
+    td:first-child { white-space: normal; width: 42%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img src="assets/avatar.png" alt="Vincent Fox Vibe-Junior">
+    <div>
+      <h1>Винсент Фокс</h1>
+      <p class="tag"><b>инструменты для агентов · свой хостинг · фулстек</b><br>TypeScript · Python · Kotlin</p>
+    </div>
+    <div class="lang"><a href="index.html">EN</a> · <b>RU</b></div>
+  </header>
+
+  <div class="term">
+    <div><span class="p">$</span> whoami</div>
+    <div>винсент — делаю инструменты, которыми управляю парком кодирующих агентов с телефона,</div>
+    <div>и сам держу все сервисы, на которых эти инструменты работают.</div>
+    <br>
+    <div><span class="p">$</span> systemctl status homelab --no-pager</div>
+    <div><span class="k">●</span> homelab.target - active (running), 24/7</div>
+    <div class="c">&nbsp;&nbsp;узлы&nbsp;&nbsp;&nbsp;&nbsp; thor1&nbsp;&nbsp; мини-ПК · Ubuntu 24.04 · агенты, шлюз, панели терминалов</div>
+    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; srv78&nbsp;&nbsp; VPS&nbsp;&nbsp;&nbsp;&nbsp; · Debian&nbsp;&nbsp;&nbsp;&nbsp; · nginx-край, релей, RustDesk, туннели</div>
+    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; de5&nbsp;&nbsp;&nbsp;&nbsp; край&nbsp;&nbsp;&nbsp; · терминатор туннеля для адреса телефона</div>
+    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bigpc&nbsp;&nbsp; 5700X + RTX 3070 · llama.cpp, локальные модели</div>
+    <div class="c">&nbsp;&nbsp;связи&nbsp;&nbsp;&nbsp; WireGuard · ZeroTier · реверс-SSH юниты (сами поднимаются)</div>
+    <div class="c">&nbsp;&nbsp;край&nbsp;&nbsp;&nbsp;&nbsp; nginx SNI-роутинг → anytls · naive · hysteria2 с port hopping</div>
+    <div class="c">&nbsp;&nbsp;память&nbsp;&nbsp; банки Mnemopi + граф проекта, у каждого утверждения есть источник</div>
+    <br>
+    <div><span class="p">$</span> tail -n 2 /var/log/focus.log</div>
+    <div class="c">&nbsp;&nbsp;пульт агентов для телефона: шлюз на Bun, PWA на React, движок обновлений с откатом</div>
+    <div class="c">&nbsp;&nbsp;правило: «готово» значит проверено настоящим прогоном, а не правдоподобным отчётом</div>
+  </div>
+
+  <h2>Что строю</h2>
+  <table>
+    <tr>
+      <td>OMP Pocket <span class="badge">приватный</span></td>
+      <td>Пульт для парка агентов <a href="https://www.npmjs.com/package/oh-my-pi">omp</a> с телефона. PWA на React + шлюз на Bun (реестр сессий, вложения, поиск, пуши, автономные задачи); E2E-релей на AES-256-GCM; рантайм панелей терминалов с эмуляцией экрана и восстановлением после рестарта; движок обновлений, который проверяет SHA-256, ставит атомарно и сам откатывается, плюс chaos-набор на сценарии отказов. 42 тысячи строк TypeScript (52 с учётом стилей), 30 тестовых файлов.</td>
+    </tr>
+    <tr>
+      <td>my-cinema <span class="badge">приватный</span></td>
+      <td>Клиент для Android TV на Kotlin — модульный Gradle (core / feature / app), свой слой дизайна, бенчмарки до работы над фичами.</td>
+    </tr>
+    <tr>
+      <td>фид каталога <span class="badge">приватный</span></td>
+      <td>Python: каталог на 2 161 товар обойдён, отфильтрован и собран в строгий YML-фид для Яндекс Директа — цена, наличие, категория и минимум четыре фото на белом фоне у товара; плюс отчёт отбора, где назван повод отсева каждого товара.</td>
+    </tr>
+    <tr>
+      <td>домашний хостинг</td>
+      <td>VPS на Debian + мини-ПК на Ubuntu: nginx-край со SNI-роутингом, юниты systemd, mesh на WireGuard/ZeroTier, свой RustDesk, llama.cpp с локальными моделями для агентов.</td>
+    </tr>
+  </table>
+
+  <h2>Стек</h2>
+  <div class="stack">
+    <span>TypeScript</span><span>Bun</span><span>React</span><span>Python</span>
+    <span>Kotlin</span><span>Bash</span><span>Debian</span><span>nginx</span>
+    <span>systemd</span><span>WireGuard</span><span>Caddy</span><span>llama.cpp</span>
+  </div>
+
+  <h2>Сейчас</h2>
+  <div class="term">
+    <div class="c">&nbsp;&nbsp;OMP Pocket — дерево процессов (WORKFLOW.md → шаги → подзадачи) и граф памяти,</div>
+    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; чтобы агент хранил источники того, что утверждает.</div>
+    <div class="c">&nbsp;&nbsp;правила, которые кусаются — хуки, а не абзацы: без плана нет правок, без настоящего прогона</div>
+    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; нет строки статуса, третий одинаковый провал обрывает цикл.</div>
+  </div>
+
+  <footer>
+    <a href="https://github.com/VincentXFox">github.com/VincentXFox</a> · исходник этой страницы живёт в
+    <a href="https://github.com/VincentXFox/vincentxfox.github.io">VincentXFox/vincentxfox.github.io</a>
+  </footer>
+
+</div>
+</body>
+</html>
