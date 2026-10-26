@@ -5,18 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vincent Fox — agent tooling &amp; self-hosted infrastructure</title>
 <meta name="description" content="Agent tooling, self-hosted infrastructure and full-stack work by Vincent Fox.">
-<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Vincent Fox">
+<meta property="og:description" content="Agent tooling · self-hosted infrastructure · full-stack">
+<meta property="og:image" content="https://vincentxfox.github.io/assets/avatar.png">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/avatar-small.png">
 <style>
   :root {
-    --bg: #0b0d10;
-    --panel: #11151a;
-    --line: #1e242c;
-    --fg: #d7dde3;
-    --dim: #7d8794;
-    --accent: #7ee787;
-    --warn: #ffa657;
-    --link: #79c0ff;
+    --bg: #fbfbfa;
+    --fg: #15171c;
+    --muted: #6a7280;
+    --line: #e5e6ea;
+    --chip: #f3f4f6;
+    --accent: #2f6f4f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0c0d10;
+      --fg: #e9ebee;
+      --muted: #8a919c;
+      --line: #1d2026;
+      --chip: #15181d;
+      --accent: #7ee787;
+    }
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -24,55 +36,68 @@
     margin: 0;
     background: var(--bg);
     color: var(--fg);
-    font: 16px/1.6 ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-    padding: 0 20px 96px;
+    font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 880px; margin: 0 auto; }
-  header { display: flex; gap: 24px; align-items: center; padding: 56px 0 36px; flex-wrap: wrap; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 72px 24px 96px; }
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  header { display: flex; align-items: center; gap: 20px; }
   header img {
-    width: 112px; height: 112px; border-radius: 50%;
-    border: 1px solid var(--line); background: var(--panel);
+    width: 76px; height: 76px; border-radius: 50%;
+    border: 1px solid var(--line); flex: 0 0 auto;
   }
-  h1 { font-size: 30px; margin: 0 0 6px; letter-spacing: -.02em; }
-  .tag { color: var(--dim); margin: 0; }
-  .tag b { color: var(--fg); font-weight: 600; }
-  .lang { margin-left: auto; font-size: 13px; color: var(--dim); white-space: nowrap; }
-  .lang b { color: var(--fg); }
-  .lang a { color: var(--dim); }
+  header .who { min-width: 0; }
+  h1 { font-size: 26px; line-height: 1.25; font-weight: 600; letter-spacing: -.015em; margin: 0 0 4px; }
+  .role { color: var(--muted); font-size: 14.5px; margin: 0; }
+  .lang { margin-left: auto; font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .lang a { color: var(--muted); }
   .lang a:hover { color: var(--fg); }
+  .lang b { color: var(--fg); font-weight: 600; }
+
+  .now { margin: 36px 0 0; font-size: 15.5px; }
+  .now p { margin: 0 0 6px; }
+  .dot { color: var(--accent); margin-right: 6px; }
+
   h2 {
-    font-size: 13px; text-transform: uppercase; letter-spacing: .14em;
-    color: var(--dim); font-weight: 600; margin: 44px 0 14px;
+    font: 600 11px/1 ui-sans-serif, system-ui, sans-serif;
+    text-transform: uppercase; letter-spacing: .12em;
+    color: var(--muted); margin: 44px 0 12px;
   }
-  .term {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
-    padding: 18px 20px; overflow-x: auto; font-size: 14px; line-height: 1.65;
+
+  .item { display: block; padding: 16px 0; border-top: 1px solid var(--line); }
+  .item:first-of-type { border-top: 0; padding-top: 4px; }
+  .item h3 {
+    font-size: 15.5px; font-weight: 600; margin: 0 0 4px;
+    display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
   }
-  .term .p { color: var(--accent); user-select: none; }
-  .term .c { color: var(--dim); }
-  .term .k { color: var(--warn); }
-  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
-  td { padding: 13px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  tr:first-child td { padding-top: 0; }
-  tr:last-child td { border-bottom: 0; }
-  td:first-child { width: 34%; color: var(--fg); white-space: nowrap; }
-  td:last-child { color: var(--dim); }
-  .badge {
-    font-size: 11px; color: var(--dim); border: 1px solid var(--line);
-    border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 1px;
+  .tag {
+    font: 500 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+    padding: 3px 8px; letter-spacing: .02em;
   }
-  .stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .item p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  .stack { display: flex; flex-wrap: wrap; gap: 6px; }
   .stack span {
-    font-size: 13px; color: var(--fg); background: var(--panel);
-    border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px;
+    font: 12.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--fg); background: var(--chip); border: 1px solid var(--line);
+    border-radius: 6px; padding: 5px 8px;
   }
-  a { color: var(--link); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  footer { margin-top: 52px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); padding-top: 18px; }
-  @media (max-width: 620px) {
-    header { padding-top: 36px; gap: 18px; }
-    h1 { font-size: 24px; }
-    td:first-child { white-space: normal; width: 42%; }
+
+  .contact { display: flex; flex-wrap: wrap; gap: 18px; font-size: 14.5px; }
+  a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; transition: border-color .15s, color .15s; }
+  a:hover { border-color: var(--accent); }
+
+  footer { margin-top: 56px; color: var(--muted); font-size: 12.5px; }
+
+  @media (max-width: 520px) {
+    .wrap { padding: 48px 20px 72px; }
+    header { gap: 14px; }
+    header img { width: 58px; height: 58px; }
+    h1 { font-size: 21px; }
+    .lang { margin-left: 0; order: -1; width: 100%; }
+    .now { margin-top: 24px; }
   }
 </style>
 </head>
@@ -80,73 +105,56 @@
 <div class="wrap">
 
   <header>
-    <img src="assets/avatar.png" alt="Vincent Fox Vibe-Junior">
-    <div>
+    <img src="assets/avatar.png" alt="Vincent Fox">
+    <div class="who">
       <h1>Vincent Fox</h1>
-      <p class="tag"><b>agent tooling · self-hosted infrastructure · full-stack</b><br>TypeScript · Python · Kotlin</p>
+      <p class="role">Agent tooling · self-hosted infrastructure · full-stack</p>
     </div>
     <div class="lang"><b>EN</b> · <a href="ru.html">RU</a></div>
   </header>
 
-  <div class="term">
-    <div><span class="p">$</span> whoami</div>
-    <div>vincentfox — I build the tooling that lets me run a fleet of coding agents from a</div>
-    <div>phone, and I host every service that tooling depends on myself.</div>
-    <br>
-    <div><span class="p">$</span> systemctl status homelab --no-pager</div>
-    <div><span class="k">●</span> homelab.target - active (running), 24/7</div>
-    <div class="c">&nbsp;&nbsp;nodes&nbsp;&nbsp;&nbsp; thor1&nbsp;&nbsp; mini-PC · Ubuntu 24.04 · agents, gateway, PTY panes</div>
-    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; srv78&nbsp;&nbsp; VPS&nbsp;&nbsp;&nbsp;&nbsp; · Debian&nbsp;&nbsp;&nbsp;&nbsp; · nginx edge, relay, RustDesk, tunnels</div>
-    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; de5&nbsp;&nbsp;&nbsp;&nbsp; edge&nbsp;&nbsp;&nbsp; · tunnel terminator for the phone endpoint</div>
-    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bigpc&nbsp;&nbsp; 5700X + RTX 3070 · llama.cpp, local models</div>
-    <div class="c">&nbsp;&nbsp;wires&nbsp;&nbsp;&nbsp; WireGuard · ZeroTier · reverse-SSH user units (self-healing)</div>
-    <div class="c">&nbsp;&nbsp;edge&nbsp;&nbsp;&nbsp;&nbsp; nginx SNI routing → anytls · naive · hysteria2 with port hopping</div>
-    <div class="c">&nbsp;&nbsp;memory&nbsp;&nbsp; Mnemopi banks + project graph, every claim carries a source</div>
-    <br>
-    <div><span class="p">$</span> tail -n 2 /var/log/focus.log</div>
-    <div class="c">&nbsp;&nbsp;agent remote for the phone: Bun gateway, React PWA, update engine with rollback</div>
-    <div class="c">&nbsp;&nbsp;rule: "done" means verified by a real run, never by a plausible report</div>
+  <div class="now">
+    <p><span class="dot">●</span>Building <strong>OMP Pocket</strong> — an agent remote for the phone.</p>
+    <p>Everything it runs on, I host myself: two servers, a mini-PC and a local model.</p>
   </div>
 
-  <h2>Building</h2>
-  <table>
-    <tr>
-      <td>OMP Pocket <span class="badge">private</span></td>
-      <td>Remote for an <a href="https://www.npmjs.com/package/oh-my-pi">omp</a> agent fleet from a phone. React PWA + Bun gateway (session registry, attachments, search, push, autonomous tasks); E2E collab relay over AES-256-GCM; PTY pane runtime with screen emulation and restore-after-restart; update engine that verifies SHA-256, installs atomically and rolls back on its own, with a chaos suite over the failure paths. 42k lines of TypeScript (52k with styles), 30 test files.</td>
-    </tr>
-    <tr>
-      <td>my-cinema <span class="badge">private</span></td>
-      <td>Android TV client in Kotlin — modular Gradle (core / feature / app), own design layer, benchmarks before feature work.</td>
-    </tr>
-    <tr>
-      <td>catalogue feed <span class="badge">private</span></td>
-      <td>Python: a 2,161-item catalogue crawled, filtered and assembled into a strict YML feed for Yandex Direct — price, stock, category, and at least four white-background photos per item — plus a selection report naming the reason every dropped item fell out.</td>
-    </tr>
-    <tr>
-      <td>homelab</td>
-      <td>Debian VPS + Ubuntu mini-PC: nginx edge with SNI routing, systemd units, WireGuard/ZeroTier mesh, self-hosted RustDesk, llama.cpp serving local models to the agents.</td>
-    </tr>
-  </table>
+  <h2>Selected work</h2>
+
+  <div class="item">
+    <h3>OMP Pocket <span class="tag">private</span></h3>
+    <p>Agent remote for the phone — React PWA, Bun gateway, E2E relay, terminal panes, updates that roll back on their own. 42k lines of TypeScript, 30 test files.</p>
+  </div>
+
+  <div class="item">
+    <h3>my-cinema <span class="tag">private</span></h3>
+    <p>Android TV client in Kotlin: modular Gradle, own design system, benchmarks before features.</p>
+  </div>
+
+  <div class="item">
+    <h3>Catalogue feed <span class="tag">private</span></h3>
+    <p>Python pipeline that turns a 2,161-item catalogue into a strict YML feed for Yandex Direct, with a report on why each rejected item fell out.</p>
+  </div>
+
+  <div class="item">
+    <h3>Homelab</h3>
+    <p>Debian VPS and an Ubuntu mini-PC: nginx edge, systemd units, WireGuard and ZeroTier, llama.cpp serving local models to the agents.</p>
+  </div>
 
   <h2>Stack</h2>
   <div class="stack">
     <span>TypeScript</span><span>Bun</span><span>React</span><span>Python</span>
-    <span>Kotlin</span><span>Bash</span><span>Debian</span><span>nginx</span>
-    <span>systemd</span><span>WireGuard</span><span>Caddy</span><span>llama.cpp</span>
+    <span>Kotlin</span><span>Debian</span><span>nginx</span><span>systemd</span>
+    <span>WireGuard</span><span>llama.cpp</span>
   </div>
 
-  <h2>Now</h2>
-  <div class="term">
-    <div class="c">&nbsp;&nbsp;OMP Pocket — the workflow tree (WORKFLOW.md → steps → subtasks) and the memory graph,</div>
-    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; so an agent keeps the provenance of what it claims.</div>
-    <div class="c">&nbsp;&nbsp;harness rules that bite — hooks, not paragraphs: no edits before a plan, no status line</div>
-    <div class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; without a real run, loops cut after the third identical failure.</div>
+  <h2>Contact</h2>
+  <div class="contact">
+    <a href="https://t.me/VincentFox26">Telegram</a>
+    <a href="mailto:shurygin.outlook@gmail.com">Email</a>
+    <a href="https://github.com/VincentXFox">GitHub</a>
   </div>
 
-  <footer>
-    <a href="https://github.com/VincentXFox">github.com/VincentXFox</a> · source of this page lives in
-    <a href="https://github.com/VincentXFox/vincentxfox.github.io">VincentXFox/vincentxfox.github.io</a>
-  </footer>
+  <footer>Source of this page: <a href="https://github.com/VincentXFox/vincentxfox.github.io">VincentXFox/vincentxfox.github.io</a></footer>
 
 </div>
 </body>
